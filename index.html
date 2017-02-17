@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		html {
+			padding-top: 100px;
+		}
+		.container {
+			width: 100%;
+			height: 50px;
+		}
+		* {
+            outline: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-tap-highlight-color: transparent;
+            -webkit-focus-ring-color: rgba(0, 0, 0, 0);
+            -webkit-focus-ring-color: transparent;
+            color: black;
+		}
+	</style>
+	<script type="text/javascript" src="./slider.js"></script>
+	<link rel="stylesheet" type="text/css" href="./slider.css">
+</head>
+<body>
+	<div class="container"></div>
+	<script type="text/javascript">
+		var slider = Slider.init({
+			el: document.querySelector('.container'),
+			min: 1,
+			max: 1000,
+			// style: {
+			// 	trackHeight: 2,
+			// 	trackColor: 'yellow',
+			// 	filledColor: 'black',
+			// 	thumbWidth: 20,
+			// 	thumbColor: 'red'
+			// },
+			onStart: function (value, progress) {
+				console.log('Start', value, progress);
+			},
+			onStop: function (value, progress) {
+				console.log('End', value, progress);
+			},
+			onChange: function (value, progress) {
+				console.log(value, progress);
+			}
+		});
+	</script>
+</body>
+</html>
