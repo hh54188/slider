@@ -26,9 +26,4 @@
 	background: black;
 	width: 0;
 	z-index: 5;
-
-/*	-webkit-transition: 300ms width ease;
-	-moz-transition: 300ms width ease;
-	-ms-transition: 300ms width ease;
-	transition: 300ms width ease;*/	
 }

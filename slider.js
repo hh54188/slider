@@ -22,7 +22,7 @@ var Slider = (function () {
 	var defaultMaxValue = 100;
 
 	var defaultTrackHeight = 2;
-	var defaultTrackColor = 'yellow';
+	var defaultTrackColor = 'blue';
 	var defaultFilledColor = 'black';
 	var defaultThumbWidth = 20;
 	var defaultThumbColor = 'red';
@@ -68,7 +68,7 @@ var Slider = (function () {
 		var value = minValue + (maxValue - minValue) * movePercentage;
 		var progress = computeProgress(value, minValue, maxValue);
 		cache[tempSliderId].currentValue = value;
-		
+
 		var changeEventHandler = cache[tempSliderId].onChange;
 
 		if (changeEventHandler) {
@@ -82,7 +82,7 @@ var Slider = (function () {
 	}
 
 	function getPageX(event) {
-		return event.pageX ? event.pageX : event.touches[0].pageX;
+		return event.pageX != undefined ? event.pageX : event.touches[0].pageX;
 	}
 
 	function startHandler(event) {
@@ -91,7 +91,6 @@ var Slider = (function () {
 		if (disabledBlacklist.indexOf(sliderId) > -1) {
 			return;
 		}
-		startedFlag = true;
 		tempSliderId = sliderId;
 
 		var currentValue = cache[tempSliderId].currentValue;
@@ -103,9 +102,13 @@ var Slider = (function () {
 
 		var startEventHandler = cache[tempSliderId].onStart;
 		if (startEventHandler) {
-			startEventHandler.call(this, currentValue, progress);
+			var result = startEventHandler.call(this, currentValue, progress);
+			if (result == false) {
+				return false;
+			}
 		}
 
+		startedFlag = true;
 		updateOffsetAndValue(getPageX(event));
 	}
 
@@ -158,6 +161,7 @@ var Slider = (function () {
 		var sliderId = 'slider' + randomRange(1, 1000);
 		slider.setAttribute('data-slider', sliderId);
 
+		option.style = option.style || {};
 		var thumbWidth = option.style.thumbWidth || defaultThumbWidth;
 		var thumbColor = option.style.thumbColor || defaultThumbColor;
 		var trackHeight = option.style.trackHeight || defaultTrackHeight;
@@ -182,6 +186,8 @@ var Slider = (function () {
 		trackFill.style.height = trackHeight + 'px';
 		trackFill.style.backgroundColor = filledColor;
 		trackFill.style.marginTop = trackHeight / -2 + 'px';
+
+		defaultMinValue = option.min;
 
 		var sliderObject = cache[sliderId] = {
 			slider: slider,
